@@ -1,1 +1,53 @@
-# dotfiles
+## List of Packages
+
+> generated using ```packin``` [see alias]
+
+- alacritty
+- alsa-utils
+- arronax
+- auto-cpufreq
+- autotiling
+- bat
+- brave-bin
+- brightnessctl
+- broot
+- btop
+- calcurse
+- cmus
+- dunst
+- easyeffects
+- emote
+- exa
+- fzf
+- galculator
+- imv
+- lf
+- lxappearance
+- maim
+- mesa-utils
+- mousepad
+- mpv
+- nano
+- neovim
+- nitrogen
+- nm-connection-editor
+- noto-fonts-emoji
+- p7zip
+- pavucontrol
+- picom
+- redshift
+- spotify
+- syncthing
+- ttf-hanazono
+- ttf-nanum
+- vlc
+- wget
+- wqy-zenhei
+- xdg-user-dirs
+- xfce4-power-manager
+- xorg-server 21.1.7-1
+- xorg-xev
+- xorg-xinit
+- xorg-xrandr
+- zathura
+- zram-generator

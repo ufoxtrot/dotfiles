@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+scrot -s -d 2 ~/Pictures/Screenshots/$(date).png

@@ -1,0 +1,294 @@
+set shell fish
+set shellopts '-eu'
+set ifs "\n"
+
+set scrolloff 10
+
+set previewer ~/.config/lf/preview
+set preview
+
+set ignorecase
+set icons
+set number
+set info size
+set dircounts
+
+
+#   $: runs as shell command
+#   %: runs as piped shell command (stdout => statusline)
+#   !: runs as interactive shell command (puts lf in the bg)
+#   :: runs as lf command
+#
+
+
+cmd open $opener $fx
+cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+
+cmd batch_rename !{{
+  contentsfile=$(mktemp)
+  trap 'rm $contentsfile' INT TERM EXIT
+  dircontents="$(command ls -1p)"
+  printf "%s" "$dircontents" | nl -n ln > "$contentsfile";
+  $EDITOR "$contentsfile"
+  printf "%s" "$dircontents" | paste -d '\t' "$contentsfile" - \
+  | while read -r line; do
+    orig="$(printf "%s" "$line" | cut -f3 | sed 's!/$!!')"
+    new="$(printf "%s" "$line" | cut -f2 | sed 's!/$!!')"
+    if [ "$new" != "$orig" ]; then
+      if [ -e "$new" ]; then
+        printf "%s already exists, not overwriting.\n" "$new"
+      else
+        printf "./%s -> ./%s\n" "$orig" "$new"
+        command mv -i ./"$orig" ./"$new"
+      fi
+    fi
+  done
+  rm "$contentsfile"
+  trap - INT TERM EXIT
+}}
+
+# change part of a filename using sed
+cmd change %{{
+  printf "Substitute: "
+  read -r sedcmd
+  mv "$f" "$(dirname "$f")/$(printf '%s' "$(basename "$f")" | sed "s$sedcmd")"
+}}
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+        *.jar) jar -xvf $f;;
+    esac
+}}
+
+cmd zip ${{
+  set -f
+  mkdir $f-zip
+  cp -r $fx $f-zip
+  (cd $f-zip/ && zip -r $f.zip .)
+  rm -rf $f-zip/
+}}
+
+cmd tar ${{
+  set -f
+  mkdir $f-tgz
+  cp -r $fx $f-tgz
+  (cd $f-tgz && tar cvzf $f.tar.gz .)
+  rm -rf $f-tgz
+}}
+
+cmd paste &{{
+    load=$(cat ~/.local/share/lf/files)
+    mode=$(echo "$load" | sed -n '1p')
+    list=$(echo "$load" | sed '1d')
+    if [ $mode = 'copy' ]; then
+        rsync -av --ignore-existing --progress $list . \
+        | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+        | while read line; do
+            lf -remote "send $id echo $line"
+        done
+    elif [ $mode = 'move' ]; then
+        mv -n $list .
+    fi
+    lf -remote 'send load'
+    lf -remote 'send clear'
+}}
+
+cmd paste_link %{{
+  if [ "$(wc -l < ~/.local/share/lf/files)" -gt 1 ]; then
+    while read -r file; do
+      case "$file" in
+        copy|move) ;;
+        *)
+          ln -s "$file" .
+          ;;
+      esac
+    done < ~/.local/share/lf/files
+  else
+    lf -remote "send $id echo no files to link."
+  fi
+}}
+
+cmd paste_rename %{{
+  mode="$(head -n 1 ~/.local/share/lf/files)"
+  for fname in $(tail -n +2 ~/.local/share/lf/files); do
+    while [ -z "${newfname:-}" ]; do
+      printf "%s => " "$fname"
+      read -r newfname
+    done
+    if [ "$mode" = 'copy' ]; then
+      cp -n "$fname" ./"$newfname"
+    else
+      mv -n "$fname" ./"$newfname"
+    fi
+  done
+  lf -remote 'send clear'
+  lf -remote 'send load'
+}}
+
+cmd ql_preview &{{
+  mousepad -p $fx &> /dev/null;
+}}
+
+# open the lfrc, and reload it after saving
+cmd edit_config :{{
+  $nvim ~/.config/lf/lfrc
+  source ~/.config/lf/lfrc
+}}
+
+# trash command with confirmation
+cmd trash %{{
+  for f in $fx; do
+    printf "Trash $f? [Y/n/a] "
+    read -r ans
+    case "$ans" in
+      Y*|y*) rm -rf "$f"; printf 'Deleted %s.\n' "$f";;
+      A*|a*) rm -rf $fx; printf 'Deleted all files.\n'; break;;
+    esac
+  done
+}}
+
+# Select files based on glob filter
+cmd glob-select-wrapper %{{
+  printf "Filter: "
+  read -r filter_expr
+  lf -remote "send $id unselect"
+  lf -remote "send $id glob-select $filter_expr"
+}}
+
+# Remove empty directories in current tree
+cmd rmempty %find .  -type d -empty -depth -delete
+
+cmd fuzzy_select $lf -remote "send $id select \"$(fzf --layout reverse)\""
+
+# Show file info with exiftool
+cmd file_info $LESSOPEN='| exiftool %s' LESS='-cRiX' less $f
+
+cmd file_preview $LESSOPEN='| ~/.config/lf/preview %s' LESS='-cRiX' less $f
+
+# Scroll parent up/down
+cmd scroll_parent_up :{{
+  updir; up
+  %[ -d "$f" ] && lf -remote "send $id open"
+}}
+
+cmd scroll_parent_down :{{
+  updir; down
+  %[ -d "$f" ] && lf -remote "send $id open"
+}}
+
+map <m-down> down
+map <m-up> up
+map <m-1> open
+map <m-3> updir
+
+# Enter commands
+map ; push :
+map S shell-pipe
+
+# execute current file (must be executable)
+map x $$f
+map X !$f
+
+# Disk usage
+map ug %du -sh $f
+
+# Open (uses the above-defined command)
+map o $mousepad $fx
+map <enter> open $fx
+# Open containing dir
+map O $open $(dirname $f)
+
+# Listing
+map r reload
+map . set hidden!
+map U redraw
+
+# Selecting
+map f fuzzy_select
+map <esc> unselect; clear
+map <space> :toggle; down
+map F glob-select-wrapper
+map u
+map uu unselect
+map uy clear
+map ud clear
+map a :unselect; invert
+
+# Show help
+map g? $lf -doc | $PAGER; clear
+
+# Renaming
+map R push :rename<space>
+map <c-r> batch_rename
+map C change
+map cw push :rename<space>
+
+# <tab> == <c-i>
+map <tab> jump-next
+map <c-o> jump-prev
+# Delete
+map D trash
+
+# Copy (others are defined by default)
+map Y copy_path
+
+# Paste
+map p
+map pp paste
+map pl paste_link
+map pr paste_rename
+
+# Viewing
+map i file_info
+map P file_preview
+map v ql_preview
+map <c-v> :set preview!; reload
+
+# Navigation
+map z push :z
+map [ scroll_parent_up
+map ] scroll_parent_down
+map gd. cd ~/Documents
+map gD cd ~/Desktop
+map gl cd ~/Downloads
+map gm cd ~/Music/Libraries
+map g/ cd /
+map g. cd ~/.dotfiles
+
+# Creating
+map c
+map cf push %touch<space>
+map cd push %mkdir<space>
+
+# Editing
+map e
+map E $$EDITOR $fx
+map ee $$EDITOR $f
+map ec edit_config
+map ce edit_config
+
+map Q queue
+
+# Compressing
+map t
+map * tag-toggle
+map tz zip
+map tt tar
+map tu extract
+
+# PGP
+map te pgp_encrypt_recipient
+map tp pgp_encrypt_pass
+map td pgp_decrypt
+map ts. pgp_sign
+map tsc pgp_sign_clear
+map tsd pgp_sign_detach
+
+map tq qrsend

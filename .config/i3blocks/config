@@ -1,0 +1,100 @@
+##### Defaults #####
+color=#ebdbb2
+markup=pango
+align=center
+separator=false
+full_text=|
+##### Defaults #####
+
+##### Blocklets #####
+
+#[window]
+#color=#b8bb26
+#interval=1
+#command=xdotool getactivewindow getwindowname
+#full_text=
+
+[separator]
+
+[run]
+full_text=󰣘 
+width=60
+command=cd ~/ && rofi -show drun >/dev/null
+
+[brave]
+full_text= 
+width=60
+command=brave
+
+[spotify]
+full_text= 
+width=60
+command=spotify
+
+[files]
+full_text= 
+width=60
+command=pcmanfm ~/
+
+[downloads]
+full_text=󰉍 
+width=60
+command=pcmanfm ~/Downloads
+
+[volume]
+full_text=󰕾 
+width=60
+command=pavucontrol
+
+[yellowishness]
+full_text= 
+width=60
+command=redshift -O 5500K >/dev/null
+
+[screenshot]
+full_text=󰹑 
+width=60
+command=maim --select ~/Pictures/Screenshots/"$(date '+%d-%k.%M.%S')".png
+
+[blueishness]
+full_text=󱉵
+width=60
+command=redshift -x >/dev/null
+
+[separator]
+
+[vol]
+interval=60
+command= amixer -D pipewire get Master | grep '%' | head -n 1 | awk -F'[' '{print $2}' | awk -F'%' '{print $1}'
+
+[vol]
+interval=60
+command= brightnessctl g
+
+[battery]
+interval=60
+command=cat /sys/class/power_supply/BAT1/capacity | awk '{ printf "%i<span color=\"#fabd2f\"></span>\n", $1 }'
+
+[separator]
+
+[date]
+interval=60
+command=date '+%A, %d %b %l:%M'
+[separator]
+
+[sleep]
+full_text= ⭘ 
+width=60
+command=notify-send 'Sleeping' && systemctl suspend
+
+[reboot]
+full_text= ⏼ 
+width=60
+command=notify-send 'Rebooting the Desktop' && systemctl reboot
+
+[power]
+full_text= ⏻  
+width=60
+command=~/.config/rofi/bin/powermenu
+
+##### Blocklets #####

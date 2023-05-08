@@ -1,0 +1,255 @@
+#########     Configuration    #########
+
+    font pango: RobotoMono Nerd Font 14
+    set $mod Mod4
+    set $term alacritty
+    set $terml st
+
+#########    Key Bindindings   #########
+
+    ### Sane Defaults
+    
+        bindsym $mod+t exec $term
+        bindsym $mod+p exec st
+        bindsym $mod+e exec $term -t "Tasks" -e 'btop'
+        bindsym $mod+semicolon exec emote
+        bindsym $mod+m bar hidden_state toggle
+
+        bindsym $mod+d exec --no-startup-id cd ~/ && rofi -show drun
+        
+        bindsym $mod+x layout toggle
+        bindsym $mod+z [urgent=latest] focus
+        bindsym $mod+f fullscreen
+
+        floating_modifier $mod
+        bindsym $mod+space floating toggle
+        bindsym $mod+Shift+space focus mode_toggle
+
+        bindsym --whole-window $mod+button4 gaps outer all plus 10, gaps inner all plus 10
+        bindsym --whole-window $mod+button5 gaps outer all minus 10, gaps inner all minus 10
+
+        bindsym --whole-window button8 floating toggle
+        bindsym --whole-window button9 kill
+    
+        bindsym $mod+q kill
+        
+        bindsym $mod+Shift+c reload
+        bindsym $mod+Shift+r restart
+
+    ### Special function keys
+        
+        bindsym XF86HomePage workspace $1
+
+        bindsym XF86AudioRaiseVolume exec amixer -D pipewire set Master 2%+ > /dev/null
+        bindsym XF86AudioLowerVolume exec  amixer -D pipewire set Master 2%- > /dev/null
+        
+        bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle &&
+        bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        
+        bindsym XF86AudioPlay exec playerctl play-pause
+        bindsym XF86AudioPrev exec playerctl playerctl previous
+        bindsym XF86AudioNext exec playerctl playerctl next
+
+        bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +1%
+        bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 1%-
+
+        bindcode 162 bar mode toggle
+        bindsym XF86Calculator exec --no-startup-id galculator
+
+        bindsym Print exec "import ~/Pictures/Screenshots/$(date -Iseconds | cut -d'+' -f1).png"
+        bindsym $mod+Print exec "import -window root ~/Pictures/Screenshots/$(date -Iseconds | cut -d'+' -f1).png"
+
+        mode "resize" {
+            bindsym h resize shrink width 10 px or 10 ppt
+            bindsym j resize grow height 10 px or 10 ppt
+            bindsym k resize shrink height 10 px or 10 ppt
+            bindsym l resize grow width 10 px or 10 ppt
+            bindsym Left resize shrink width 10 px or 10 ppt
+            bindsym Down resize grow height 10 px or 10 ppt
+            bindsym Up resize shrink height 10 px or 10 ppt
+            bindsym Right resize grow width 10 px or 10 ppt
+
+            bindsym Return mode "default"
+            bindsym Escape mode "default"
+            bindsym $mod+r mode "default"
+        }
+
+        bindsym $mod+r mode "resize"
+
+#########  Windows/Workspaces  #########
+
+    ### Move between windows
+        bindsym $mod+h focus left
+        bindsym $mod+j focus down
+        bindsym $mod+k focus up
+        bindsym $mod+l focus right
+        bindsym $mod+Left focus left
+        bindsym $mod+Down focus down
+        bindsym $mod+Up focus up
+        bindsym $mod+Right focus right
+
+    ### Move focused window
+        bindsym $mod+Shift+h move left
+        bindsym $mod+Shift+j move down
+        bindsym $mod+Shift+k move up
+        bindsym $mod+Shift+l move right
+        bindsym $mod+Shift+Left move left
+        bindsym $mod+Shift+Down move down
+        bindsym $mod+Shift+Up move up
+        bindsym $mod+Shift+Right move right
+
+    ### Workplace nomenclature
+        set $1 "1: Home "
+        set $2 "2: Andromeda "
+        set $3 "3: Peekaboo "
+        set $4 "4: Hoag's Orbit "
+        set $5 "5: Little Sombrero "
+        set $6 "6: Sunflower "
+
+    ### Switch to workspace
+        bindsym $mod+Tab workspace next
+        bindsym $mod+Shift+Tab workspace prev
+        bindsym $mod+1 workspace $1
+        bindsym $mod+2 workspace $2
+        bindsym $mod+3 workspace $3
+        bindsym $mod+4 workspace $4
+        bindsym $mod+5 workspace $5
+        bindsym $mod+6 workspace $6
+
+    ### Move focused container to workspace
+        bindsym $mod+Shift+1 move container to workspace $1 workspace $1 
+        bindsym $mod+Shift+2 move container to workspace $2 workspace $2
+        bindsym $mod+Shift+3 move container to workspace $3 workspace $3
+        bindsym $mod+Shift+4 move container to workspace $4 workspace $4
+        bindsym $mod+Shift+5 move container to workspace $5 workspace $5
+        bindsym $mod+Shift+6 move container to workspace $6 workspace $6
+
+    ### Switch workspace to another monitor
+        # bindsym $mod+Shift+h move workspace to output left
+        # bindsym $mod+Shift+j move workspace to output down
+        # bindsym $mod+Shift+k move workspace to output up
+        # bindsym $mod+Shift+l move workspace to output right
+
+    ### Prev/Next workspace. bind it to your mouse if you have a sticky keyboard
+        # bindsym $mod+Shift+o workspace prev_on_output
+        # bindsym $mod+Shift+p workspace next_on_output
+
+#########   Window Properties  #########
+ 
+   ### Borders and Gaps
+   
+        new_window pixel
+        default_border none
+        default_floating_border none
+        hide_edge_borders smart
+        gaps inner 5
+        gaps outer 1
+        smart_gaps off
+
+        client.focused           #A9DC76 #A9DC76 #A9DC76 #A9DC76  #A9DC76 
+        client.focused_inactive  #16161d #16161d #c0caf5 #16161d   #16161d
+        client.unfocused         #16161d #16161d #c0caf5 #16161d   #16161d
+
+        focus_follows_mouse yes
+
+    ### Enable float for some windows
+    
+        for_window [class="^Dialog$"]               floating enable
+        for_window [class="^Transfer$"]             floating enable
+        for_window [title="Picture-in-picture"]     floating enable
+        for_window [window_role="pop-up"]           floating enable
+        for_window [window_role="task_dialog"]      floating enable
+
+        for_window [class="^Pavucontrol$"]          floating enable
+        for_window [class="^Galculator$"]           floating enable
+        for_window [class="^Lxappearance$"]         floating enable
+        for_window [class="^Nitrogen$"]             floating enable
+        for_window [class="^imv$"]                  floating enable
+        for_window [class="^qvidcap$"]              floating enable
+        
+
+    ### Assign programs to workspace
+          
+          assign [class="Spotify"] → $4
+          assign [class="discord"] → $5
+            
+            ### Some programs can be stubborn since they open a splash window before opening
+            
+                for_window [class="Spotify"] move to workspace $4
+                for_window [class="discord"] move to workspace $5
+
+
+#########    Launch Programs   #########
+
+    ### Startup Apps
+        # exec --no-startup-id brave &
+        # exec --no-startup-id spotify &
+        # exec --no-startup-id betterbird &
+        
+    ### Wallpaper
+        exec --no-startup-id nitrogen --restore &
+        
+    ### Power Manager 
+        exec --no-startup-id xfce4-power-manager &
+        
+    ### Clipboard
+
+    ### System
+        exec --no-startup-id xset r rate 400 25
+        exec --no-startup-id xset b off
+        exec --no-startup-id xrdb -merge ~/.Xresources
+        
+    ### notifications
+        exec --no-startup-id dunst &
+        
+    ### Auto Tiling
+        exec_always --no-startup-id autotiling &
+        
+    ### Compositor
+        exec --no-startup-id picom &
+        
+    ### Welcome Message
+        exec-once --no-startup-id notify-send "Welcome back $USER!"
+
+#########        i3 Bar        #########
+
+        bar {
+        
+            ### Bar Configs
+            
+                font pango: CaskaydiaCove Nerd Font 12
+                i3bar_command i3bar --transparency
+                status_command i3blocks
+                mode hide
+                hidden_state hide
+                height 28
+                padding 0px
+                output primary
+                position top
+                strip_workspace_numbers yes
+                workspace_min_width 40
+                tray_output none
+                tray_padding 2px
+
+                bindsym button2 move container to workspace Scratch
+                bindsym button8 reload
+
+                colors {
+               
+                    background #00000000
+                    # focused_workspace  #00000000 #00000000 #ebdbb2
+                    # active_workspace   #00000000 #00000000 #ebdbb2
+                    # inactive_workspace #00000000 #00000000 #BFBFBF
+              
+                     # background #1d2021
+                    statusline #ebdbb2
+                    separator  #282828
+
+                    focused_workspace  #98971a #00000000 #ebdbb2
+                    active_workspace   #b8bb26 #00000000 #ebdbb2
+                    inactive_workspace #1d2021 #00000000 #BFBFBF
+
+                    urgent_workspace   #d79921 #00000000 #ebdbb2
+                    binding_mode       #d79921 #00000000 #ebdbb2
+               }
+         }
