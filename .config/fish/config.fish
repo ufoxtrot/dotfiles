@@ -1,19 +1,21 @@
-## EXPORT ###
-set fish_greeting                                 # Supresses fish's intro message
+## EXPORTS ###
+set fish_greeting
 set TERM 'xterm-256color'
 set EDITOR 'nvim'
 set VISUAL 'nvim'
 set -x MANPAGER 'sh -c "col -bx | bat -l man -p"'
 
+## PATHS ###
 fish_add_path $HOME/.local/bin
-fish_add_path $HOME/Scripts/asciiart
 fish_add_path $HOME/Apps
 
-# navigation
+## ALIASES ###
 alias ..='cd ..'
 alias ...='cd ../..'
 
-# nvim
+alias rf='rm -rf'
+alias q='exit'
+
 alias vim='nvim'
 alias vi='nvim'
 alias bat="bat --style='plain,numbers,changes,header' --color always --theme gruvbox-dark"
@@ -23,13 +25,11 @@ alias ls='exa -a --color=always --group-directories-first --icons' # my preferre
 alias la='exa -la --color=always --group-directories-first --icons'  # all files and dirs
 alias ll='exa -l --color=always --group-directories-first --icons'  # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias rf='rm -rf'
-alias q='exit'
 
 # colorize grep output (good for log files)
 alias grep='grep --color=auto'
 
-# accquire packages details
+# accquire packages details (requires fzf)
 alias packin="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 
 # adding flags
