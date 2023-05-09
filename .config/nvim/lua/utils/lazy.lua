@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup('plugins', {
   install = {
     missing = true,
-    colorscheme = { "habamax" },
+    colorscheme = { "aquarium" },
   },
   change_detection = {
     enable = false,
@@ -22,17 +22,5 @@ require('lazy').setup('plugins', {
   },
   ui = {
     border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },
-  },
-  performance = {
-    rtp = {
-      disabled_plugins = {
-        "gzip",
-        "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
-    },
   },
 })

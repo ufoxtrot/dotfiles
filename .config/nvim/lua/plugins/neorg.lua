@@ -1,7 +1,6 @@
 return {
   'nvim-neorg/neorg',
   dependencies = { "nvim-lua/plenary.nvim" },
-  lazy = true,
   build = ":Neorg sync-parsers",
   opts = {
     load = {

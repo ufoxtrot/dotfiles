@@ -2,8 +2,8 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'xiyaowong/telescope-emoji.nvim', 'debugloop/telescope-undo.nvim' },
-    lazy = true,
     config = function()
+
       require("telescope").load_extension("emoji")
       require("telescope").load_extension("undo")
 
@@ -23,14 +23,12 @@ return {
             vertical = {
               mirror = false,
             },
-            width = 0.87,
-            height = 0.80,
-            preview_cutoff = 120,
+            width = 0.60,
+            height = 0.60,
           },
           file_sorter = require("telescope.sorters").get_fuzzy_file,
           File_ignore_patterns = { "node_modules" },
           generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-          winblend = 0,
           mappings = { n = { ["q"] = require("telescope.actions").close } }
         }
       }

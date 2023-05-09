@@ -5,9 +5,12 @@
 -- ./lua/general/
 -- ./lua/plugins/
 -- ./lua/lsp/
+-- ./lua/utils/
 
 -- Sourcing Configs
+require('utils.disabled')
 require('general.options')
-require('general.lazy')
+require('utils.lazy')
 require('general.keymaps')
 require('general.autocmds')
+require('general.colorscheme')

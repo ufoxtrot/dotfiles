@@ -16,6 +16,7 @@ return {
 
       map('n', 'u', api.tree.change_root_to_parent, opts('Up'))
       map('n', 'l', api.node.open.edit, opts('Open'))
+      map('n', 'l', api.node.open.edit, opts('CD'))
       map('n', '<CR>', api.node.open.edit, opts('Open'))
       map('n', '<2-LeftMouse>', api.node.open.edit, opts('Open'))
       map('n', 'L', api.tree.change_root_to_node, opts('CD'))
@@ -46,15 +47,13 @@ return {
       sort_by = "name",
       view = {
         width = 25,
-        adaptive_size = false,
         side = "left",
         cursorline = true,
         number = false,
         centralize_selection = true,
       },
       renderer = {
-        root_folder_label = true,
-        full_name = false,
+        root_folder_label = false,
         indent_width = 1,
         indent_markers = {
           enable = false,
@@ -124,7 +123,7 @@ return {
         },
       },
       filters = {
-        dotfiles = true,
+        dotfiles = false,
         custom = {
           "^.git$",
           "^node_modules$"

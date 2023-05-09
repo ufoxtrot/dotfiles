@@ -12,19 +12,19 @@ return {
       group = true,
       padding = true,
       indent_lines = false,
-      auto_open = false,
+      auto_open = true,
       auto_close = true,
       auto_preview = true,
       auto_fold = false,
       auto_jump = { "lsp_definitions" },
-      signs = {
-        error = "",
-        warning = "",
-        hint = "",
-        information = "",
-        other = "﫠"
-      },
-      use_diagnostic_signs = false
+      -- signs = {
+      --   error = "",
+      --   warning = "",
+      --   hint = "",
+      --   information = "",
+      --   other = "﫠"
+      -- },
+      use_diagnostic_signs = true
     }
   end
 }

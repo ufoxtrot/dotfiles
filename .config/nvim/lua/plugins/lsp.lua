@@ -1,63 +1,67 @@
 return {
-  'neovim/nvim-lspconfig',
+  "neovim/nvim-lspconfig",
   dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
 
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-emoji',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-cmdline',
+    "glepnir/lspsaga.nvim",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
 
-    'hrsh7th/vim-vsnip',
-    'hrsh7th/vim-vsnip-integ',
+    "hrsh7th/nvim-cmp",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-emoji",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp",
 
-    'glepnir/lspsaga.nvim',
-    'onsails/lspkind.nvim',
+    "hrsh7th/vim-vsnip",
+    "hrsh7th/vim-vsnip-integ",
 
-    'rafamadriz/friendly-snippets',
+    "rafamadriz/friendly-snippets",
 
-    'folke/neodev.nvim'
+    "folke/neodev.nvim",
+
+    "onsails/lspkind.nvim",
+
   },
 
   config = function()
-    require('neodev').setup()
-    require('lspsaga').setup()
+    require("lspsaga").setup()
+    require("neodev").setup()
 
     -- keymaps
     local on_attach = function(client, bufnr)
-      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+      vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
       local map = function(mode, lhs, rhs)
         local opts = { noremap = true, silent = true, buffer = bufnr }
         vim.keymap.set(mode, lhs, rhs, opts)
       end
 
-      map('n', 'gD', vim.lsp.buf.declaration)
-      map('n', 'gd', vim.lsp.buf.definition)
-      map('n', 'K', vim.lsp.buf.hover)
-      map('n', '<C-k>', vim.lsp.buf.signature_help)
-      map('n', '<leader>D', vim.lsp.buf.type_definition)
-      map('n', 'gr', vim.lsp.buf.references)
-      map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
+      map("n", "gD", vim.lsp.buf.declaration)
+      map("n", "gd", vim.lsp.buf.definition)
+      map("n", "K", vim.lsp.buf.hover)
+      map("n", "<C-k>", vim.lsp.buf.signature_help)
+      map("n", "<leader>D", vim.lsp.buf.type_definition)
+      map("n", "gr", vim.lsp.buf.references)
+      map("n", "<leader>f", function()
+        vim.lsp.buf.format({ async = true })
+      end)
     end
 
     -- customization
     local signs = {
-      { name = 'DiagnosticSignError', text = '✘' },
-      { name = 'DiagnosticSignWarn',  text = '▲' },
-      { name = 'DiagnosticSignHint',  text = '⚑' },
-      { name = 'DiagnosticSignInfo',  text = '' }
+      { name = "DiagnosticSignError", text = "✘" },
+      { name = "DiagnosticSignWarn",  text = "▲" },
+      { name = "DiagnosticSignHint",  text = "⚑" },
+      { name = "DiagnosticSignInfo",  text = "" },
     }
 
     for _, sign in ipairs(signs) do
       vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
     end
 
-    vim.diagnostic.config {
-      virtual_text = { prefix = '● ' },
+    vim.diagnostic.config({
+      virtual_text = { prefix = "● " },
       signs = false,
       update_in_insert = true,
       underline = true,
@@ -67,7 +71,7 @@ return {
         border = "rounded",
         source = "always",
       },
-    }
+    })
 
     local has_words_before = function()
       unpack = unpack or table.unpack
@@ -80,21 +84,16 @@ return {
     end
     -- completion engine
     local cmp = require("cmp")
-    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-    cmp.event:on(
-      'confirm_done',
-      cmp_autopairs.on_confirm_done()
-    )
-    cmp.setup {
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+    cmp.setup({
       snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+          vim.fn["vsnip#anonymous"](args.body)
         end,
       },
       mapping = {
-        -- ["<Tab>"] = cmp.mapping.select_next_item(),
-        -- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -103,7 +102,7 @@ return {
           elseif has_words_before() then
             cmp.complete()
           else
-            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+            fallback()
           end
         end, { "i", "s" }),
 
@@ -116,29 +115,42 @@ return {
         end, { "i", "s" }),
         ["<C-k>"] = cmp.mapping.select_prev_item(),
         ["<C-j>"] = cmp.mapping.select_next_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-1),
-        ['<C-f>'] = cmp.mapping.scroll_docs(1),
-        ['<cr>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false },
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-d>"] = cmp.mapping.scroll_docs(-1),
+        ["<C-f>"] = cmp.mapping.scroll_docs(1),
+        ["<cr>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
         ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ["<C-Space>"] = cmp.mapping.complete(),
       },
-      sources = cmp.config.sources {
-        { name = 'nvim_lsp' },
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'emoji' },
-        { name = 'vsnip' }
-      },
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+        { name = "path" },
+        { name = "emoji" },
+        { name = "vsnip" },
+      }),
+      -- window = {
+      --   completion = cmp.config.window.bordered(),
+      --   documentation = cmp.config.window.bordered(),
+      -- },
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+          col_offset = -3,
+          side_padding = 0,
+        },
       },
-      experimental = {
-        ghost_text = true
+      formatting = {
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+          local kind = require("lspkind").cmp_format({ mode = "symbol", maxwidth = 50 })(entry, vim_item)
+          local strings = vim.split(kind.kind, "%s", { trimempty = true })
+          kind.kind = " " .. (strings[1] or "") .. " "
+          return kind
+        end,
       },
-    }
+    })
 
     -- search completion
     cmp.setup.cmdline({ "/", "?" }, {
@@ -154,19 +166,22 @@ return {
       sources = cmp.config.sources({
         { name = "path" },
       }, {
-        { name = "cmdline" },
-      }),
+          { name = "cmdline" },
+        }),
     })
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
     require("mason").setup()
     require("mason-lspconfig").setup()
-    require("mason-lspconfig").setup_handlers {
+    require("mason-lspconfig").setup_handlers({
       function(server_name)
-        require("lspconfig")[server_name].setup { on_attach = on_attach, capabilities = capabilities, settings = require(
-          'lsp.' .. server_name) }
-      end
-    }
-  end
+        require("lspconfig")[server_name].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = require("lsp." .. server_name),
+        })
+      end,
+    })
+  end,
 }
