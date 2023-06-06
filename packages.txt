@@ -46,4 +46,3 @@ xorg-xev
 xorg-xinit
 xorg-xrandr
 zathura
-zram-generator

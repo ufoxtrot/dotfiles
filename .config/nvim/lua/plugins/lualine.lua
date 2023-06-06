@@ -2,7 +2,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      require('lualine').setup{
+      require('lualine').setup {
 
         options = {
           icons_enabled = true,
@@ -15,15 +15,15 @@ return {
         },
 
         sections = {
-          lualine_a = { 'mode'  },
+          lualine_a = { 'mode' },
           lualine_b = { 'branch', 'diff', 'filename' },
           lualine_c = {},
           lualine_x = { 'searchcount' },
-          lualine_y = { {'filetype', icon_only = true }, 'diagnostics', 'tabs' },
+          lualine_y = { { 'filetype', icon_only = true }, 'diagnostics', 'tabs' },
           lualine_z = { "os.date('羽%I:%M -  %d %A')" }
         },
 
-        extensions = {'toggleterm', 'trouble'}
+        extensions = { 'toggleterm', 'trouble' }
 
       }
     end

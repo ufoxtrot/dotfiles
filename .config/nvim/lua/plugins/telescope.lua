@@ -3,11 +3,10 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'xiyaowong/telescope-emoji.nvim', 'debugloop/telescope-undo.nvim' },
     config = function()
-
       require("telescope").load_extension("emoji")
       require("telescope").load_extension("undo")
 
-      require('telescope').setup{
+      require('telescope').setup {
         defaults = {
           prompt_prefix = "   ",
           selection_caret = " ⇾  ",

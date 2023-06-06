@@ -39,7 +39,7 @@ return {
       map('n', 'q', api.tree.close, opts('Close'))
     end
 
-    require("nvim-tree").setup{
+    require("nvim-tree").setup {
       on_attach = on_attach,
       disable_netrw = true,
       hijack_cursor = true,
@@ -78,27 +78,27 @@ return {
             git = true,
             modified = true,
           },
-          glyphs = {
-            default = "",
-            symlink = "",
-            folder = {
-              default = "",
-              open = "",
-              empty = "",
-              empty_open = "",
-              symlink = "",
-              symlink_open = "",
-            },
-            git = {
-              unstaged = "",
-              staged = "S",
-              unmerged = "",
-              renamed = "➜",
-              untracked = "U",
-              deleted = "",
-              ignored = "◌",
-            },
-          },
+          -- glyphs = {
+          --   default = "",
+          --   symlink = "",
+          --   folder = {
+          --     default = "",
+          --     open = "",
+          --     empty = "",
+          --     empty_open = "",
+          --     symlink = "",
+          --     symlink_open = "",
+          --   },
+          --   git = {
+          --     unstaged = "",
+          --     staged = "S",
+          --     unmerged = "",
+          --     renamed = "➜",
+          --     untracked = "U",
+          --     deleted = "",
+          --     ignored = "◌",
+          --   },
+          -- },
         },
       },
       git = {

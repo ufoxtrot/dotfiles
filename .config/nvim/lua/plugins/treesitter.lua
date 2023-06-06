@@ -1,8 +1,7 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  dependencies = { 'nvim-treesitter/nvim-treesitter-context', 'windwp/nvim-ts-autotag'},
+  dependencies = { 'nvim-treesitter/nvim-treesitter-context', 'windwp/nvim-ts-autotag' },
   config = function()
-
     local ensure_installed = {
       "markdown",
       "markdown_inline",
@@ -20,12 +19,9 @@ return {
       "gdscript"
     }
 
-    require'treesitter-context'.setup{ max_lines = 1 }
-    require('nvim-treesitter.configs').setup{
+    require 'treesitter-context'.setup { max_lines = 1 }
+    require('nvim-treesitter.configs').setup {
       ensure_installed = ensure_installed,
-      indent = {
-        enable = true,
-      },
       autopairs = {
         enable = true,
       },

@@ -11,7 +11,7 @@ set.termguicolors = true
 set.title = true
 set.mouse= 'a'
 
-set.shell = 'pwsh'
+set.shell = 'pwsh.exe'
 -- set.shellcmdflag = '-nol'
 
 set.scrolloff = 5
