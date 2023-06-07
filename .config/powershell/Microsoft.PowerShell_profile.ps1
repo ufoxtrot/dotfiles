@@ -1,16 +1,16 @@
 #oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\gruvbox.omp.json" | Invoke-Expression
-#Invoke-Expression (&starship init powershell)
+Invoke-Expression (&starship init powershell)
 
-function prompt {
-    $dateTime = get-date -Format "dd.MM.yyyy HH:mm:ss"
-    $currentDirectory = $(Get-Location)
-    $UncRoot = $currentDirectory.Drive.DisplayRoot
-    write-host "$dateTime" -NoNewline -ForegroundColor YELLOW
-    write-host " $UncRoot" -ForegroundColor White
-    # Convert-Path needed for pure UNC-locations
-    write-host "$(Convert-Path $currentDirectory)>" -NoNewline -ForegroundColor GREEN
-    return " "
-}
+#function prompt {
+ #   $dateTime = get-date -Format "dd.MM.yyyy HH:mm:ss"
+ #   $currentDirectory = $(Get-Location)
+ #   $UncRoot = $currentDirectory.Drive.DisplayRoot
+ #   write-host "$dateTime" -NoNewline -ForegroundColor YELLOW
+ #   write-host " $UncRoot" -ForegroundColor White
+ #   # Convert-Path needed for pure UNC-locations
+ #   write-host "$(Convert-Path $currentDirectory)>" -NoNewline -ForegroundColor GREEN
+ #   return " "
+#}
 
 Import-Module PSFzf
 
