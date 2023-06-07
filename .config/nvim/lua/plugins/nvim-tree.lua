@@ -2,18 +2,15 @@ return {
   "nvim-tree/nvim-tree.lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
-    vim.g.loaded_netrw = 2
-    vim.g.loaded_netrwPlugin = 2
+    vim.g.loaded_netrw = 0
+    vim.g.loaded_netrwPlugin = 0
 
     local function on_attach(bufnr)
       local api = require('nvim-tree.api')
-
       local function opts(desc)
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
       end
-
       local map = vim.keymap.set
-
       map('n', 'u', api.tree.change_root_to_parent, opts('Up'))
       map('n', 'l', api.node.open.edit, opts('Open'))
       map('n', 'l', api.node.open.edit, opts('CD'))
@@ -46,17 +43,18 @@ return {
       sync_root_with_cwd = true,
       sort_by = "name",
       view = {
-        width = 25,
+        width = 20,
         side = "left",
-        cursorline = true,
+        cursorline = false,
         number = false,
         centralize_selection = true,
       },
+
       renderer = {
         root_folder_label = false,
         indent_width = 1,
         indent_markers = {
-          enable = false,
+          enable = true,
           inline_arrows = false,
           icons = {
             corner = "└",
@@ -64,64 +62,32 @@ return {
             item = "│",
             bottom = "─",
             none = " ",
-          },
+          }
         },
+
         icons = {
-          webdev_colors = true,
           git_placement = "after",
-          modified_placement = "before",
           padding = " ",
           show = {
             file = true,
             folder = true,
             folder_arrow = false,
             git = true,
-            modified = true,
-          },
-          -- glyphs = {
-          --   default = "",
-          --   symlink = "",
-          --   folder = {
-          --     default = "",
-          --     open = "",
-          --     empty = "",
-          --     empty_open = "",
-          --     symlink = "",
-          --     symlink_open = "",
-          --   },
-          --   git = {
-          --     unstaged = "",
-          --     staged = "S",
-          --     unmerged = "",
-          --     renamed = "➜",
-          --     untracked = "U",
-          --     deleted = "",
-          --     ignored = "◌",
-          --   },
-          -- },
-        },
+          }
+        }
       },
+
       git = {
         enable = true,
         show_on_dirs = true,
         show_on_open_dirs = true,
         timeout = 400,
       },
-      modified = {
-        enable = true,
-        show_on_dirs = true,
-        show_on_open_dirs = true,
-      },
+
       diagnostics = {
-        enable = true,
-        show_on_dirs = true,
-        icons = {
-          hint = "",
-          info = "",
-          warning = "",
-          error = "✘ ",
-        },
+        enable = false,
       },
+
       filters = {
         dotfiles = false,
         custom = {
@@ -129,20 +95,24 @@ return {
           "^node_modules$"
         }
       },
+
       live_filter = {
         prefix = "[FILTER]: ",
         always_show_folders = true,
       },
+
       update_focused_file = {
         enable = true,
         update_root = true,
         ignore_list = { "help" },
         update_cwd = true,
       },
+
       actions = {
         change_dir = {
           enable = true,
         },
+
         open_file = {
           resize_window = false,
           window_picker = {
@@ -150,11 +120,9 @@ return {
             exclude = {
               filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
               buftype = { "nofile", "terminal", "help" },
-            },
-          },
-        },
-        remove_file = {
-        },
+            }
+          }
+        }
       }
     }
   end

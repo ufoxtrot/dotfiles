@@ -19,14 +19,14 @@ return {
       "gdscript"
     }
 
-    require 'treesitter-context'.setup { max_lines = 1 }
+    require('treesitter-context').setup{ max_lines = 1 }
     require('nvim-treesitter.configs').setup {
       ensure_installed = ensure_installed,
       autopairs = {
-        enable = true,
+        enable = true
       },
       autotag = {
-        enable = true,
+        enable = true
       }
     }
   end

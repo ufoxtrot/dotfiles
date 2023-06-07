@@ -11,6 +11,5 @@ return {
         StatusLine = { fg = 'love', bg = 'love', blend = 10 },
       }
     }
-    vim.cmd('colorscheme rose-pine')
   end
 }

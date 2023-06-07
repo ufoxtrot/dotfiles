@@ -11,7 +11,7 @@ set.termguicolors = true
 set.title = true
 set.mouse= 'a'
 
-set.shell = 'pwsh.exe'
+set.shell = 'pwsh'
 -- set.shellcmdflag = '-nol'
 
 set.scrolloff = 5
@@ -21,19 +21,18 @@ set.splitbelow = true
 set.splitright= true
 set.inccommand= "split"
 
-
 set.clipboard = 'unnamedplus'
 set.iskeyword:append("-")
 set.path:append { '**' }
 
 set.timeout = true
-set.timeoutlen = 400
+set.timeoutlen = 600
 
 set.completeopt= { 'menuone', 'noinsert' }
 set.pumblend = 0
 
 set.showcmd = false
-set.cmdheight = 0
+set.cmdheight = 1
 set.laststatus = 2
 set.wildmenu = true
 set.wildoptions = 'pum'
@@ -70,12 +69,9 @@ set.wildignore:append { '*/node_modules/*' }
 set.shortmess:append { I = true, W = true, a = true, c = true, F = true, s = true, }
 
 -- Neovide Configurations
-
 if vim.g.neovide then
   vim.g.neovide_transparency = 0.9
   vim.g.neovide_scroll_animation_length = 1.3
   vim.g.neovide_remember_window_size = true
   vim.g.neovide_cursor_vfx_mode = "railgun"
 end
-
-

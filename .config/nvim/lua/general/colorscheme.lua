@@ -1,6 +1,4 @@
-vim.cmd("colorscheme rose-pine")
-vim.cmd[[
-hi TelescopeBorder guifg=#5eacd
-au WinEnter * setl winhl=WinSeparator:None
-au WinLeave * setl winhl=WinSeparator:None
-]]
+local colorscheme = 'rose-pine'
+
+vim.cmd("colorscheme " ..  colorscheme)
+vim.cmd[[ hi TelescopeBorder guifg=#5eacd ]]

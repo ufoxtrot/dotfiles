@@ -6,11 +6,11 @@ end
 -- File Actions
 map("n", "<C-q>", ":q!<cr>")
 map("n", "<C-s>", "::w<cr>")
-map("n", "<C-/>", "gcc")
+map("n", "<C-/", "gcc")
 map("n", "<C-t>", ":tabnew<cr>")
 map("n", "<C-o>", "gg<S-v>G")
-map("n", "<C-f>", "=G<cr>")
-map("n", "<leader>f", "vim.lsp.buf.format")
+map("n", "<C-f>", "vim.lsp.buf.format")
+map("n", "<leader>f", "=G<cr>")
 map("n", "<C-c>", ":echo<cr>:nohlsearch<cr>")
 
 -- Plugin Actions
@@ -27,14 +27,14 @@ map("n", "<leader>t", ":TroubleToggle<cr>")
 map("n", "<leader>b", ":TodoTrouble<cr>")
 
 -- Language Server
-map("n", "<leader>a", ":Lspsaga code_action")
-map("n", "<leader>p", ":Lspsaga peek_definition")
-map("n", "<leader>r", ":Lspsaga code_action")
+map("n", "<leader>r", ":Lspsaga code_action<cr>")
+map("n", "<leader>p", ":Lspsaga peek_definition<cr>")
 
 -- Shell
 map("n", "<leader><leader>", ":<up><cr>")
-map("n", "<Leader>s", ":edit $MYVIMRC<cr>")
-map("n", "<leader>x", ":!chmod +x %<cr>")
+map("n", "<Leader>rr", ":edit $MYVIMRC<cr>")
+map("n", "<leader>x", ":!notepad.exe %<cr>")
+map("n", "<leader>.", ":!chmod +x %<cr>")
 
 -- Search and Replace
 map("n", "<leader>sr", ":%s/\\<<c-r><c-w>\\>/")
