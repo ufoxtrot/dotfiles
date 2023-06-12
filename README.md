@@ -1,7 +1,6 @@
-## List of Packages
-
-> generated using ```packin``` [see alias]
-
+<details>
+<summary>packages installed</summary>
+<br>
 - alacritty
 - alsa-utils
 - arronax
@@ -24,7 +23,6 @@
 - lf
 - lxappearance
 - maim
-- mesa-utils
 - mousepad
 - mpv
 - nano
@@ -45,9 +43,10 @@
 - wqy-zenhei
 - xdg-user-dirs
 - xfce4-power-manager
-- xorg-server 21.1.7-1
+- xorg-server
 - xorg-xev
 - xorg-xinit
 - xorg-xrandr
 - zathura
-- zram-generator
+</details>
+
